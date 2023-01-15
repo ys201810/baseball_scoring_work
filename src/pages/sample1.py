@@ -16,19 +16,18 @@ def main():
     video_file = video_path / movie_name
     select_values = selectValues()
 
-    st.markdown(f"### 動画名:{video_file.name}")
-    st.text(f"①　氏名を確認。")
+    st.markdown(f"#### ①　評価者の氏名を入力")
     user = st.text_input('評価者の氏名', '佐藤太郎')
     result_file = base_path / "db" / f"{user}_{movie_name.split('.')[0]}.csv"
 
-    st.text(f"②　動画を確認。")
+    st.markdown(f"#### ②　動画を確認")
 
     with open(video_file, 'rb') as inf:
         video_bytes = inf.read()
         container = set_slider()
         container.video(data=video_bytes)
 
-    st.text(f"③　確認した動画を評価。")
+    st.markdown(f"#### ③　確認した動画を評価")
     point = st.selectbox('良い悪いを判断したポイント:', select_values.points)
     timing = st.selectbox('ピッチングのタイミング：', select_values.timings)
     time_from = st.text_input('動画内の開始時間', '00:00')
