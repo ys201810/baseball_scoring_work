@@ -8,12 +8,14 @@ from utils import set_slider
 import pandas as pd
 import datetime
 import pickle
+from utils import selectValues
 
 
 def main():
     movie_name = "sample3.mov"
     video_path = base_path / "data"
     video_file = video_path / movie_name
+    select_values = selectValues()
 
     st.markdown(f"### 動画名:{video_file.name}")
     st.text(f"①　氏名を確認。")
@@ -28,21 +30,13 @@ def main():
         container.video(data=video_bytes)
 
     st.text(f"③　確認した動画を評価。")
-    point = st.selectbox(
-        '良い悪いを判断したポイント:',
-        ['腕', '肘', '膝', '頭', '投げ手'])
-    timing = st.selectbox(
-        'ピッチングのタイミング：',
-        ['投げ始め', 'リリース時', '投げ終わり'])
+    point = st.selectbox('良い悪いを判断したポイント:', select_values.points)
+    timing = st.selectbox('ピッチングのタイミング：', select_values.timings)
     time_from = st.text_input('動画内の開始時間', '00:00')
     time_to = st.text_input('動画内の終了時間', '00:00')
-    evaluate = st.selectbox(
-        'ポイントの評価：',
-        ['○', '×'])
+    evaluate = st.selectbox('注目したポイントの評価：', select_values.evaluates)
     comment = st.text_input('評価ポイントに対するコメント', '投げ終わりに腕を振り抜き切れていない。')
-    total_evalate = st.selectbox(
-        '総評(10段階)：',
-        ['未評価', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
+    total_evalate = st.selectbox('総評(10段階)：', select_values.total_evaluates)
 
     if st.button('評価を追加する'):
         data = [
