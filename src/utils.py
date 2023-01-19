@@ -4,6 +4,7 @@ import streamlit as st
 class selectValues():
     def __init__(self):
         self.points = ['腕', '肘', '膝', '頭', '投げ手', '足']
+        self.eval_kinds = ['パフォーマンス観点', '怪我観点']
         self.timings = ['投げ始め', 'リリース時', '投げ終わり']
         self.evaluates = ['○', '×']
         self.total_evaluates = ['未評価', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']

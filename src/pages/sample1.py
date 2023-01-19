@@ -29,6 +29,8 @@ def main():
 
     st.markdown(f"#### ③　確認した動画を評価")
     point = st.selectbox('良い悪いを判断したポイント:', select_values.points)
+    eval_kind = st.selectbox('評価の観点:', select_values.eval_kinds)
+
     timing = st.selectbox('ピッチングのタイミング：', select_values.timings)
     time_from = st.text_input('動画内の開始時間', '00:00')
     time_to = st.text_input('動画内の終了時間', '00:00')
@@ -41,6 +43,7 @@ def main():
             movie_name,
             user,
             point,
+            eval_kind,
             timing,
             time_from,
             time_to,
@@ -49,11 +52,9 @@ def main():
             total_evalate,
             datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
         ]
-        with open('aa.pkl', 'wb') as outf:
-            pickle.dump(data, outf)
         result_df = pd.DataFrame(
             data = [data],
-            columns=['movie', 'user', 'point', 'timing', 'time_from', 'time_to', 'evaluate', 'comment', 'total_evaluate', 'timestamp'],
+            columns=['movie', 'user', 'point', 'eval_kind', 'timing', 'time_from', 'time_to', 'evaluate', 'comment', 'total_evaluate', 'timestamp'],
         )
         if not result_file.exists():
             result_df.to_csv(result_file, index=False, sep='\t')
@@ -65,12 +66,13 @@ def main():
     if result_file.exists():
 
         st.text('\n\nあなたの過去の評価は以下です。')
-        disp_targets = ['total_evaluate', 'point', 'timing', 'time_from', 'time_to', 'evaluate', 'comment', 'timestamp']
+        disp_targets = ['total_evaluate', 'point', 'eval_kind', 'timing', 'time_from', 'time_to', 'evaluate', 'comment', 'timestamp']
         eval_df = pd.read_csv(result_file, sep='\t')
         eval_df = eval_df[disp_targets]
         eval_df = eval_df.rename(columns = {
             'total_evaluate': '総評',
             'point': 'ポイント',
+            'eval_kind': '評価の観点',
             'timing': 'タイミング',
             'time_from': '開始時間',
             'time_to': '終了時間',
